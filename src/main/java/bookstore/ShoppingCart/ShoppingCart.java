@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import bookstore.BookDetails.*;
 import bookstore.BookBrowsingSorting.*;
 import bookstore.ShoppingCart.*;
+import bookstore.Wishlist.*;
 
 public class ShoppingCart extends Wishlist {
 
@@ -15,7 +16,7 @@ public class ShoppingCart extends Wishlist {
     public ShoppingCart(String user, String scName) {
         this.userName = user;
         this.scName = scName;
-        books = new ArrayList<Book>();
+        books = new ArrayList<bookstore.BookDetails.Book>();
     }
 
     public String getScName() {
