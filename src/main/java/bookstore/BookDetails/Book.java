@@ -1,7 +1,11 @@
-package bookstore.demo;
+package bookstore.BookDetails;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import bookstore.BookDetails.*;
+import bookstore.BookBrowsingSorting.*;
+import bookstore.ShoppingCart.*;
 
 public class Book {
 
@@ -145,13 +149,13 @@ public class Book {
 
 
 
-    public static ArrayList<Book> getAllBooks() {
+    public static ArrayList<bookstore.BookDetails.Book> getAllBooks() {
         Connection connection;
         String user = "root";
         String password = "JumpM@n!";
         String database = "jdbc:mysql://localhost:3306/bookstore";
 
-        ArrayList<Book> books = new ArrayList<Book>();
+        ArrayList<bookstore.BookDetails.Book> books = new ArrayList<bookstore.BookDetails.Book>();
 
         try {
             connection = DriverManager.getConnection(database, user, password);
@@ -171,7 +175,7 @@ public class Book {
                             + "FROM BOOK");
 
             while (resultSet.next()) {
-                Book temp = new Book (resultSet.getString("isbn"), resultSet.getString("bname"),
+                bookstore.BookDetails.Book temp = new bookstore.BookDetails.Book(resultSet.getString("isbn"), resultSet.getString("bname"),
                         resultSet.getString("bdesc"), resultSet.getString("price"),
                         resultSet.getString("a_fname"), resultSet.getString("a_lname"),
                         resultSet.getString("genre"),
@@ -191,13 +195,13 @@ public class Book {
     }
 
 
-    public static ArrayList<Book> getWishlistByUser(String usern) {
+    public static ArrayList<bookstore.BookDetails.Book> getWishlistByUser(String usern) {
         Connection connection;
         String user = "root";
         String password = "JumpM@n!";
         String database = "jdbc:mysql://localhost:3306/bookstore";
 
-        ArrayList<Book> wishBooks = new ArrayList<>();
+        ArrayList<bookstore.BookDetails.Book> wishBooks = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(database, user, password);
@@ -218,13 +222,13 @@ public class Book {
         return wishBooks;
     }
 
-    public static ArrayList<Book> getShopCartByUser(String usern) {
+    public static ArrayList<bookstore.BookDetails.Book> getShopCartByUser(String usern) {
         Connection connection;
         String user = "root";
         String password = "JumpM@n!";
         String database = "jdbc:mysql://localhost:3306/bookstore";
 
-        ArrayList<Book> wishBooks = new ArrayList<>();
+        ArrayList<bookstore.BookDetails.Book> wishBooks = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(database, user, password);

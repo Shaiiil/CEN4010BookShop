@@ -1,13 +1,15 @@
-package bookstore.demo;
-
-import java.util.ArrayList;
-import java.util.List;
-
+package bookstore.BookBrowsingSorting;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import bookstore.BookDetails.*;
+import bookstore.BookBrowsingSorting.*;
+import bookstore.ShoppingCart.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -17,7 +19,7 @@ public class BookSortController {
     @GetMapping ("/books/{genre}")
     List <Book> getGenre(@PathVariable String genre) {
         List <Book> books = Book.getAllBooks();
-        List <Book> genreFound = new ArrayList <Book> ();
+        List <Book> genreFound = new ArrayList<Book>();
         for (Book b : books) {
             if (b.getGenre().toLowerCase().equals(genre.toLowerCase())) {
                 genreFound.add(b);//Will add book with x genre to array named book genre
@@ -28,12 +30,12 @@ public class BookSortController {
 
     @GetMapping("/books/wishlist/{user}")
     public static List<Book> getWishByUser(@PathVariable String user) {
-        List <Book> books = Book.getWishlistByUser(user);
+        List<Book> books = Book.getWishlistByUser(user);
         return books;
     }
 
     @GetMapping ("/books/ISBN/{isbn}")
-    static List <Book> getBookByISBN(@PathVariable String isbn) {
+    public static List <Book> getBookByISBN(@PathVariable String isbn) {
         List <Book> books = Book.getAllBooks();
         List <Book> isbnFound = new ArrayList <Book> ();
         for (Book b : books) {
