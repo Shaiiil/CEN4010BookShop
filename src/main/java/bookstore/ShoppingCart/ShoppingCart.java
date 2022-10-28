@@ -23,7 +23,7 @@ public class ShoppingCart extends Wishlist {
         return this.scName;
     }
 
-    public void setScName(String scNameName) {
-        this.scNameName = scName;
+    public void setScName(String scName) {
+        this.scName = scName;
     }
 }
