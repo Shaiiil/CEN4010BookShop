@@ -1,38 +1,21 @@
 package bookstore.demo;
 
-        import java.sql.*;
-        import java.util.ArrayList;
-        import java.util.Objects;
+public class ShoppingCart {
 
-        import java.sql.Connection;
-        import java.sql.DriverManager;
-        import java.sql.SQLException;
-        import java.sql.Statement;
-        import java.sql.ResultSet;
+    private String cart_name;
+    private String cart_username;
 
-public class ShoppingCart extends Wishlist {
-    /*
-
-    private String scName;
-
-    public ShoppingCart() {}
-
-    public ShoppingCart(String user, String scName) {
-        this.userName = user;
-        this.scName = scName;
-        books = new ArrayList<Book>();
+    public ShoppingCart() {
     }
 
-    public String getScName() {
-        return this.scName;
+    public ShoppingCart(String cart_name, String cart_username) {
+        this.cart_name = cart_name;
+        this.cart_username = cart_username;
     }
 
-    public void setScName(String scNameName) {
-        this.scNameName = scName;
-    }
+    public String getCart_name() {return this.cart_name;}
+    public void setCart_name(String cart_name) {this.cart_name = cart_name;}
+    public String getCart_username() {return this.cart_username;}
+    public void setCart_username(String cart_username) {this.cart_username = cart_username;}
 
-
-
-}
-*/
 }
