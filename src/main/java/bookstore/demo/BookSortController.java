@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 public class BookSortController {
+    private BookService book_serv;
 
+    @Autowired
+    public BookSortController(BookService book_serv) {
+        this.book_serv=book_serv;
+    }
 
     @GetMapping ("/books/{genre}")
     List <Book> getBookByGenre(@PathVariable String genre) {
@@ -26,11 +29,12 @@ public class BookSortController {
         return genreFound;
     }
 
-    @GetMapping("/books/wishlist/{user}")
-    public static List<Book> getWishByUser(@PathVariable String user) {
-        List <Book> books = Book.getWishlistByUser(user);
+    @GetMapping("/books/wishlist/{wl_name}")
+    public static List<Book> getWishListByWishName(@PathVariable String wl_name) {
+        List <Book> books = Book.getWishListByWishName(wl_name);
         return books;
     }
+
 
     @GetMapping ("/books/ISBN/{isbn}")
     static List <Book> getBookByISBN(@PathVariable String isbn) {
@@ -50,6 +54,30 @@ public class BookSortController {
         return books;
     }
 
+    @GetMapping("/books/rating/{rating}")
+    public static List<Book> getBooksByRating(@PathVariable String rating) {
+        List <Book> books = Book.getBooksByRating(rating);
+        return books;
+    }
+
+    @GetMapping("/books/toptenbooks")
+    public static List<Book> getTopTenBooks() {
+        List <Book> books = Book.getTopTenBooks();
+        return books;
+    }
+
+    @GetMapping("/books/amount/{amount}")
+    public static List<Book> getXBooks(@PathVariable int amount) {
+        List <Book> allBooks = Book.getAllBooks();
+        List <Book> amountBooks = new ArrayList<>();
+        //int temp = Integer.parseInt(amount);
+        for (Book b: allBooks) {
+            amountBooks.add(b);
+            if (amountBooks.size()==amount) break;
+        }
+        return amountBooks;
+    }
+
     @GetMapping ("/books/author/{author}")
     List <Book> getBooksByAuthor(@PathVariable String author) {
         List <Book> books = Book.getAllBooks();
@@ -62,4 +90,6 @@ public class BookSortController {
         return authorBooks;
     }
 
+    @PostMapping("/books/create")
+    public void createBook(@RequestBody Book b) {book_serv.createBook(b);}
 }
