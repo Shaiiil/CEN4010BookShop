@@ -4,25 +4,15 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Book {
-
     private String isbn;
-
     private String bname;
-
     private String bdesc;
-
     private String price;
-
     private String a_fname;
-
     private String a_lname;
-
     private String genre;
-
     private String pub_name;
-
     private String yr_pub;
-
     private String copies_sold;
 
     private String rating;
@@ -191,7 +181,7 @@ public class Book {
     }
 
 
-    public static ArrayList<Book> getWishlistByUser(String usern) {
+    public static ArrayList<Book> getWishListByWishName(String wishName) {
         Connection connection;
         String user = "root";
         String password = "JumpM@n!";
@@ -202,7 +192,7 @@ public class Book {
         try {
             connection = DriverManager.getConnection(database, user, password);
             Statement statement = connection.createStatement();
-            String query = String.format("select b_isbn from contains_wish where wish_name = (select wl_name from wishlist where wl_username = '%s')",usern);
+            String query = String.format("select b_isbn from contains_wish where wish_name = '%s'",wishName);
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -224,7 +214,7 @@ public class Book {
         String password = "JumpM@n!";
         String database = "jdbc:mysql://localhost:3306/bookstore";
 
-        ArrayList<Book> wishBooks = new ArrayList<>();
+        ArrayList<Book> cartBooks = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(database, user, password);
@@ -233,7 +223,7 @@ public class Book {
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                wishBooks.add(BookSortController.getBookByISBN(resultSet.getString("b_isbn")).get(0));
+                cartBooks.add(BookSortController.getBookByISBN(resultSet.getString("b_isbn")).get(0));
             }
         }
         catch (SQLException e) {
@@ -242,6 +232,96 @@ public class Book {
             System.exit(1);
         }
 
-        return wishBooks;
+        return cartBooks;
+    }
+
+    public static ArrayList<Book> getBooksByRating(String rating) {
+        Connection connection;
+        String user = "root";
+        String password = "JumpM@n!";
+        String database = "jdbc:mysql://localhost:3306/bookstore";
+
+        ArrayList<Book> books = new ArrayList<Book>();
+
+        try {
+            connection = DriverManager.getConnection(database, user, password);
+            Statement statement = connection.createStatement();
+            String query = String.format("SELECT isbn\r\n"
+                    + "    , bname\r\n"
+                    + "    , bdesc\r\n"
+                    + "    , price\r\n"
+                    + "    , a_fname\r\n"
+                    + "    , a_lname\r\n"
+                    + "    , genre\r\n"
+                    + "    , pub_name\r\n"
+                    + "    , yr_pub\r\n"
+                    + "    , copies_sold\r\n"
+                    + "    , rating\r\n"
+                    + "FROM BOOK where rating >= %s order by rating desc", rating);
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                Book temp = new Book (resultSet.getString("isbn"), resultSet.getString("bname"),
+                        resultSet.getString("bdesc"), resultSet.getString("price"),
+                        resultSet.getString("a_fname"), resultSet.getString("a_lname"),
+                        resultSet.getString("genre"),
+                        resultSet.getString("pub_name"), resultSet.getString("yr_pub"),
+                        resultSet.getString("copies_sold"), resultSet.getString("rating"))
+                        ;
+                books.add(temp);
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not open database.");
+            System.exit(1);
+        }
+        return books;
+    }
+
+    public static ArrayList<Book> getTopTenBooks() {
+        Connection connection;
+        String user = "root";
+        String password = "JumpM@n!";
+        String database = "jdbc:mysql://localhost:3306/bookstore";
+
+        ArrayList<Book> books = new ArrayList<Book>();
+
+        try {
+            connection = DriverManager.getConnection(database, user, password);
+            Statement statement = connection.createStatement();
+            String query = "SELECT isbn\r\n"
+                    + "    , bname\r\n"
+                    + "    , bdesc\r\n"
+                    + "    , price\r\n"
+                    + "    , a_fname\r\n"
+                    + "    , a_lname\r\n"
+                    + "    , genre\r\n"
+                    + "    , pub_name\r\n"
+                    + "    , yr_pub\r\n"
+                    + "    , copies_sold\r\n"
+                    + "    , rating\r\n"
+                    + "FROM BOOK order by copies_sold desc";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next() && books.size()<=9) {
+                Book temp = new Book (resultSet.getString("isbn"), resultSet.getString("bname"),
+                        resultSet.getString("bdesc"), resultSet.getString("price"),
+                        resultSet.getString("a_fname"), resultSet.getString("a_lname"),
+                        resultSet.getString("genre"),
+                        resultSet.getString("pub_name"), resultSet.getString("yr_pub"),
+                        resultSet.getString("copies_sold"), resultSet.getString("rating"))
+                        ;
+                books.add(temp);
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not open database.");
+            System.exit(1);
+        }
+        return books;
     }
 }
