@@ -17,6 +17,12 @@ public class BookSortController {
         this.book_serv=book_serv;
     }
 
+    @GetMapping ("/books/all")
+    List <Book> getAllBooks() {
+        List <Book> books = Book.getAllBooks();
+        return books;
+    }
+
     @GetMapping ("/books/{genre}")
     List <Book> getBookByGenre(@PathVariable String genre) {
         List <Book> books = Book.getAllBooks();
@@ -66,15 +72,20 @@ public class BookSortController {
         return books;
     }
 
-    @GetMapping("/books/amount/{amount}")
-    public static List<Book> getXBooks(@PathVariable int amount) {
+    @GetMapping("/books/getamount/{amount}/startat/{start}")
+    public static List<Book> getXBooksAtOffset(@PathVariable int amount, @PathVariable int start) {
         List <Book> allBooks = Book.getAllBooks();
         List <Book> amountBooks = new ArrayList<>();
         //int temp = Integer.parseInt(amount);
+
+        int i=0;
         for (Book b: allBooks) {
-            amountBooks.add(b);
-            if (amountBooks.size()==amount) break;
+            if(i>=start && i<amount+start) {
+                amountBooks.add(b);
+            }
+            i++;
         }
+
         return amountBooks;
     }
 
