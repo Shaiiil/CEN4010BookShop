@@ -54,4 +54,28 @@ public class ShoppingCartService {
             System.exit(1);
         }
     }
+
+    public void deleteBook(String ISBN, String userName) {
+        Connection connection;
+        String user = "root";
+        String password = "JumpM@n!";
+        String database = "jdbc:mysql://localhost:3306/bookstore";
+
+        try {
+            connection = DriverManager.getConnection(database, user, password);
+
+
+            String test = "delete from contains_cart where b_isbn = (?) and shop_name = (select cart_name from shopcart where cart_username=(?))";
+            PreparedStatement prep = connection.prepareStatement(test);
+
+            prep.setString(1,ISBN);
+            prep.setString(2,userName);
+            prep.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not open database.");
+            System.exit(1);
+        }
+    }
 }

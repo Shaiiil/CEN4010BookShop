@@ -20,8 +20,13 @@ public class ShoppingCartController {
         shoppingCartService.createShopCart(sc);
     }
 
-    @PatchMapping("shoppingcart/add/{shop_name}")
+    @PatchMapping("/shoppingcart/add/{shop_name}")
     public void addBook(@RequestBody BookTemp temp, @PathVariable String shop_name) {
         shoppingCartService.addBook(shop_name,temp.getData());
+    }
+
+    @DeleteMapping("/shoppingcart/{user}")
+    public void deleteCourse(@RequestBody BookTemp temp, @PathVariable String user) {
+        shoppingCartService.deleteBook(temp.getData(),user);
     }
 }
