@@ -37,4 +37,9 @@ public class WishListController {
     public void addBook(@RequestBody BookTemp temp, @PathVariable String wl_name) {
         wlserv.addBook(wl_name,temp.getData());
     }
+
+    @PatchMapping("/wishlists/{u_email}/tocart/{wl_name}")
+    public void moveBookToCart(@RequestBody BookTemp temp, @PathVariable String u_email,@PathVariable String wl_name) {
+        wlserv.moveBookToCart(u_email,wl_name,temp.getData());
+    }
 }
