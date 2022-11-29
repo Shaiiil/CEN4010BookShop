@@ -54,4 +54,34 @@ public class WishListService {
             System.exit(1);
         }
     }
+
+    public void moveBookToCart(String u_email, String wish_name, String ISBN) {
+        Connection connection;
+        String user = "root";
+        String password = "JumpM@n!";
+        String database = "jdbc:mysql://localhost:3306/bookstore";
+
+        try {
+            connection = DriverManager.getConnection(database, user, password);
+            String test1 = "delete from contains_wish where b_isbn = (?) and wish_name = (?)";
+            PreparedStatement prep = connection.prepareStatement(test1);
+
+            prep.setString(1,ISBN);
+            prep.setString(2,wish_name);
+            prep.executeUpdate();
+
+
+            String test2 = "insert into contains_cart(b_isbn,shop_name) values ((?),(select cart_name from shopcart where cart_username=(?)))";
+            prep = connection.prepareStatement(test2);
+
+            prep.setString(1,ISBN);
+            prep.setString(2,u_email);
+            prep.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Could not open database.");
+            System.exit(1);
+        }
+    }
 }
